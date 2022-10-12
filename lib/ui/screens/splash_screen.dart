@@ -1,8 +1,25 @@
+import 'dart:async';
+
 import 'package:donor_darah/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    Timer(const Duration(milliseconds: 3000), () {
+      context.go('/auth');
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +32,7 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Image.asset(
+              SvgPicture.asset(
                 kAppLogo,
                 width: screenWidth / 4,
                 fit: BoxFit.fitWidth,
@@ -23,10 +40,10 @@ class SplashScreen extends StatelessWidget {
               const SizedBox(height: 16.0),
               const Text(
                 kAppTitle,
-                style: kHeading,
+                style: kHeadingTextStyle,
               ),
               const Spacer(),
-              const CircularProgressIndicator(color: kPrimaryColor),
+              const CircularProgressIndicator(color: kBrownColor),
               const Spacer(),
             ],
           ),

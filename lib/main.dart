@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'firebase_options.dart';
 import 'utils/constants.dart';
-import 'utils/router.dart';
+import 'utils/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +20,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
+        routeInformationProvider: routes.routeInformationProvider,
+        routeInformationParser: routes.routeInformationParser,
+        routerDelegate: routes.routerDelegate,
         title: kAppTitle,
       );
 }

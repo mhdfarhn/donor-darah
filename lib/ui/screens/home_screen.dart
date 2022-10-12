@@ -1,5 +1,6 @@
 import 'package:donor_darah/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,8 +11,16 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(kAppTitle),
       ),
-      body: const Center(
-        child: Text('Home Screen'),
+      body: Center(
+        child: Column(
+          children: [
+            Text('Home Screen'),
+            ElevatedButton(
+              onPressed: () => context.go('/auth'),
+              child: Text('back to auth'),
+            ),
+          ],
+        ),
       ),
     );
   }
