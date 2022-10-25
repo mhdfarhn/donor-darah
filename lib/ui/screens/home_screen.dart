@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text('Home Screen'),
+            const Text('Home Screen'),
             ElevatedButton(
-              onPressed: () => context.go('/auth'),
-              child: Text('back to auth'),
+              onPressed: () => context.go('/sign-in'),
+              child: const Text('back to auth'),
             ),
           ],
         ),
