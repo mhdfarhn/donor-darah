@@ -29,6 +29,13 @@
             {
               "client_id": "578799157681-sjgal4qquvfged3gtrlivpf0supsdu0l.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "578799157681-sh9i62niipekaegog6ktjj6qlok99ss8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.donorDarah"
+              }
             }
           ]
         }
