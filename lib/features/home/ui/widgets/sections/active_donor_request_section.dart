@@ -2,45 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../donor_request/blocs/donor_request/donor_request_bloc.dart';
 import '../../../../donor_request/data/models/donor_request_model.dart';
 import '../../../../donor_request/ui/widgets/donor_request_active_card.dart';
+import '../../../blocs/bloc/active_donor_requests_bloc.dart';
 
-class DonorRequestActiveSection extends StatefulWidget {
-  const DonorRequestActiveSection({
+class ActiveDonorRequestSection extends StatefulWidget {
+  const ActiveDonorRequestSection({
     super.key,
   });
 
   @override
-  State<DonorRequestActiveSection> createState() =>
-      _DonorRequestActiveSectionState();
+  State<ActiveDonorRequestSection> createState() =>
+      _ActiveDonorRequestSectionState();
 }
 
-class _DonorRequestActiveSectionState extends State<DonorRequestActiveSection> {
+class _ActiveDonorRequestSectionState extends State<ActiveDonorRequestSection> {
   @override
   void initState() {
-    context.read<DonorRequestBloc>().add(LoadDonorRequests());
+    context.read<ActiveDonorRequestsBloc>().add(LoadActiveDonorRequests());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DonorRequestBloc, DonorRequestState>(
+    return BlocBuilder<ActiveDonorRequestsBloc, ActiveDonorRequestsState>(
       builder: (context, state) {
-        if (state is DonorRequestLoading) {
+        if (state is ActiveDonorRequestsLoading) {
           return const Center(
             child: CircularProgressIndicator(
               color: AppColor.red,
             ),
           );
-        } else if (state is DonorRequestError) {
+        } else if (state is ActiveDonorRequestsError) {
           return Text(
             state.error,
             style: TextStyle(
               fontSize: AppFontSize.body,
             ),
           );
-        } else if (state is DonorRequestLoaded) {
+        } else if (state is ActiveDonorRequestsLoaded) {
           List<DonorRequestModel> donorRequests = state.donorRequests;
           List<double> distances = state.distances;
 
@@ -55,7 +55,8 @@ class _DonorRequestActiveSectionState extends State<DonorRequestActiveSection> {
                       (distance / 1000).toStringAsFixed(2);
                   final String distanceInMeter = distance.toStringAsFixed(2);
 
-                  return DonorRequestActiveCard(
+                  return DonorRequestCard(
+                    active: true,
                     donorRequest: donorRequest,
                     distanceInKilometer: distanceInKilometer,
                     distanceInMeter: distanceInMeter,

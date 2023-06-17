@@ -28,10 +28,10 @@ class DonorRequestService {
     }
   }
 
-  Future<List<DonorRequestModel>> getActiveDonorRequests(bool active) async {
+  Future<List<DonorRequestModel>> getDonorRequests(bool active) async {
     try {
       QuerySnapshot snapshot = await _collectionReference
-          .where('active', isEqualTo: true)
+          .where('active', isEqualTo: active)
           .orderBy('createdAt', descending: true)
           .get();
       List<QueryDocumentSnapshot> docs = snapshot.docs;

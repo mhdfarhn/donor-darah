@@ -4,14 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/constants.dart';
 import '../../data/models/donor_request_model.dart';
 
-class DonorRequestActiveCard extends StatelessWidget {
+class DonorRequestCard extends StatelessWidget {
+  final bool active;
   final DonorRequestModel donorRequest;
   final String distanceInKilometer;
   final String distanceInMeter;
   final int index;
 
-  const DonorRequestActiveCard({
+  const DonorRequestCard({
     super.key,
+    required this.active,
     required this.donorRequest,
     required this.distanceInKilometer,
     required this.distanceInMeter,
@@ -52,7 +54,8 @@ class DonorRequestActiveCard extends StatelessWidget {
                 Text('Darah dibutuhkan: ${donorRequest.bloodType}'),
                 Text('Jarak: $distanceInKilometer km ($distanceInMeter m)'),
                 Text(
-                  AppFunction.date(donorRequest.createdAt),
+                  AppFunction.date(
+                      active ? donorRequest.createdAt : donorRequest.updatedAt),
                   style: const TextStyle(
                     color: Colors.black54,
                   ),

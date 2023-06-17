@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: TitleButton(
-              title: 'Pemetaan',
+              title: 'Peta',
               onTap: () {},
             ),
           ),
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 16.0.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const DonorRequestActiveSection(),
+            child: const ActiveDonorRequestSection(),
           ),
           SizedBox(height: 24.0.h),
           Padding(
@@ -56,12 +56,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 16.0.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: Text(
-              'Belum ada donor selesai.',
-              style: TextStyle(
-                fontSize: AppFontSize.body,
-              ),
-            ),
+            child: const SuccessDonorRequestSection(),
           ),
           SizedBox(height: 16.0.h),
         ],

@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/data/models/models.dart';
 import '../../../../core/data/services/firebase/firebases.dart';
-import '../../../result/data/models/result_model.dart';
 import '../../../donor_request/data/models/donor_request_model.dart';
+import '../../../result/data/models/result_model.dart';
 
 part 'donor_request_event.dart';
 part 'donor_request_state.dart';
@@ -19,32 +18,6 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
   final FirestoreService _firestore = FirestoreService();
 
   DonorRequestBloc() : super(DonorRequestInitial()) {
-    on<LoadDonorRequests>((event, emit) async {
-      emit(DonorRequestLoading());
-      try {
-        List<DonorRequestModel> donorRequests =
-            await _donorRequest.getActiveDonorRequests(true);
-
-        Position position = await AppFunction.getCurrentPosition();
-
-        List<double> distances = <double>[];
-        for (DonorRequestModel donorRequest in donorRequests) {
-          distances.add(
-            AppFunction.sloc(
-              startLatitude: donorRequest.location.latitude,
-              startLongitude: donorRequest.location.longitude,
-              endLatitude: position.latitude,
-              endLongitude: position.longitude,
-            ),
-          );
-        }
-
-        emit(DonorRequestLoaded(donorRequests, distances));
-      } catch (e) {
-        emit(DonorRequestError(e.toString()));
-      }
-    });
-
     on<RequestDonor>((event, emit) async {
       emit(DonorRequestLoading());
       try {

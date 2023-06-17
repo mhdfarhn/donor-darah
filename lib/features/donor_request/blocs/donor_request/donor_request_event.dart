@@ -7,7 +7,9 @@ abstract class RequestDonorEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadDonorRequests extends RequestDonorEvent {}
+class LoadActiveDonorRequests extends RequestDonorEvent {}
+
+class LoadSuccessDonorRequests extends RequestDonorEvent {}
 
 class RequestDonor extends RequestDonorEvent {
   final DonorRequestModel requestDonor;

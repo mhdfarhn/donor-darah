@@ -17,6 +17,8 @@ import 'core/blocs/profile/profile_bloc.dart';
 import 'core/constants/constants.dart';
 import 'core/utils/router.dart';
 import 'features/donor_request/blocs/donor_request/donor_request_bloc.dart';
+import 'features/home/blocs/bloc/active_donor_requests_bloc.dart';
+import 'features/home/blocs/success_donor_requests/success_donor_requests_bloc.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -119,6 +121,9 @@ class _MainAppState extends State<MainApp> {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
+              create: (context) => ActiveDonorRequestsBloc(),
+            ),
+            BlocProvider(
               create: (context) => AuthBloc(),
             ),
             BlocProvider(
@@ -138,6 +143,9 @@ class _MainAppState extends State<MainApp> {
             ),
             BlocProvider(
               create: (context) => ProfileBloc(),
+            ),
+            BlocProvider(
+              create: (context) => SuccessDonorRequestsBloc(),
             ),
           ],
           child: MaterialApp.router(

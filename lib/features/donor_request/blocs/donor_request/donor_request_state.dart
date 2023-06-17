@@ -11,16 +11,6 @@ class DonorRequestInitial extends DonorRequestState {}
 
 class DonorRequestLoading extends DonorRequestState {}
 
-class DonorRequestLoaded extends DonorRequestState {
-  final List<DonorRequestModel> donorRequests;
-  final List<double> distances;
-
-  const DonorRequestLoaded(this.donorRequests, this.distances);
-
-  @override
-  List<Object> get props => [donorRequests, distances];
-}
-
 class DonorRequestSuccess extends DonorRequestState {
   final List<ResultModel> results;
   final GeoPoint requestLocation;

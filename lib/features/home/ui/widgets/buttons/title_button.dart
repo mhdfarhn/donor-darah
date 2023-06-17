@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/constants/app_font_size.dart';
 
@@ -27,9 +26,9 @@ class TitleButton extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const FaIcon(
-            FontAwesomeIcons.arrowRight,
-          )
+          // const FaIcon(
+          //   FontAwesomeIcons.arrowRight,
+          // )
         ],
       ),
     );
