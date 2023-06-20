@@ -7,6 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math.dart';
 
 class AppFunction {
+  static bool isLatestTimestamp(Timestamp newTime, Timestamp lastTime) {
+    final DateTime after =
+        DateTime.fromMicrosecondsSinceEpoch(newTime.microsecondsSinceEpoch);
+    final DateTime before =
+        DateTime.fromMicrosecondsSinceEpoch(lastTime.microsecondsSinceEpoch);
+    return after.isAfter(before);
+  }
+
   static String date(Timestamp date) {
     final String year = DateFormat.y().format(
         DateTime.fromMicrosecondsSinceEpoch(date.microsecondsSinceEpoch));

@@ -57,6 +57,24 @@ class FirestoreService {
     }
   }
 
+  Future<void> deleteToken(UserModel user) async {
+    try {
+      _usersCollectionReference.doc(user.email).update(
+            user
+                .copyWith(
+                  status: user.status,
+                  name: user.name,
+                  email: user.email,
+                  token: '',
+                  updatedAt: Timestamp.now(),
+                )
+                .toMap(),
+          );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<void> updateToken(UserModel user, String token) async {
     try {
       _usersCollectionReference.doc(user.email).update(
@@ -103,6 +121,9 @@ class FirestoreService {
 
       QuerySnapshot userQuerySnapshot = await _usersCollectionReference
           .where('email', isNotEqualTo: user!.email!)
+          // // Uncomment for active user only.
+          // .where('token', isNotEqualTo: '')
+          // .where('token', isNotEqualTo: null)
           .where('status', isEqualTo: true)
           .where(
             'bloodType',
@@ -121,6 +142,24 @@ class FirestoreService {
       }
 
       return users;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<void> updateLastDonation(UserModel user, Timestamp time) async {
+    try {
+      _usersCollectionReference.doc(user.email).update(
+            user
+                .copyWith(
+                  status: user.status,
+                  name: user.name,
+                  email: user.email,
+                  lastDonation: time,
+                  updatedAt: Timestamp.now(),
+                )
+                .toMap(),
+          );
     } catch (e) {
       throw e.toString();
     }

@@ -35,6 +35,10 @@ class SignInRequest extends AuthEvent {
 }
 
 class SignOut extends AuthEvent {
+  final String email;
+
+  const SignOut(this.email);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [email];
 }

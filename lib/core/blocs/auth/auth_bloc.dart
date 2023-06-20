@@ -64,6 +64,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         await _authService.signIn(email: event.email, password: event.password);
 
+        final UserModel user = await _firestoreService.getUser(event.email);
+
+        if (user.token != token) {
+          await _firestoreService.updateToken(user, token!);
+        }
+
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         sharedPreferences.setString('email', event.email);
@@ -78,6 +84,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<SignOut>((event, emit) async {
       emit(AuthLoading());
+
+      final UserModel user = await _firestoreService.getUser(event.email);
+
+      await _firestoreService.deleteToken(user);
+
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.remove('email');

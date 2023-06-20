@@ -26,6 +26,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
@@ -51,6 +52,7 @@ Future<void> setupFlutterNotifications() async {
     'high_importance_channel',
     'High Importance Notifications',
     description: 'This channel is used for important notifications.',
+    enableLights: true,
     importance: Importance.high,
   );
 
@@ -73,6 +75,7 @@ Future<void> setupFlutterNotifications() async {
 void showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -83,7 +86,7 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          icon: 'launch_background',
+          icon: 'notification_icon',
         ),
       ),
     );
@@ -97,7 +100,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
   await setupFlutterNotifications();
   showFlutterNotification(message);
-  debugPrint('Handling a background message ${message.messageId}');
 }
 
 class MainApp extends StatefulWidget {
@@ -110,9 +112,26 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  String? _token;
   String? initialMessage;
-  bool _resolved = false;
+  bool resolved = false;
+
+  @override
+  void initState() {
+    FirebaseMessaging.instance.getInitialMessage().then(
+          (value) => setState(() {
+            resolved = true;
+            initialMessage = value?.data.toString();
+          }),
+        );
+
+    FirebaseMessaging.onMessage.listen(showFlutterNotification);
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      context.goNamed('notification');
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,24 +180,5 @@ class _MainAppState extends State<MainApp> {
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    FirebaseMessaging.instance.getInitialMessage().then(
-          (value) => setState(() {
-            _resolved = true;
-            initialMessage = value?.data.toString();
-          }),
-        );
-
-    FirebaseMessaging.onMessage.listen(showFlutterNotification);
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('A new onMessageOpenedApp event was published!');
-      context.goNamed('auth');
-    });
-
-    super.initState();
   }
 }

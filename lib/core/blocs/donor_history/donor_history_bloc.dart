@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donor_darah/core/data/services/firebase/firestore_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/data/models/models.dart';
+import '../../constants/app_function.dart';
+import '../../data/services/firebase/firestore_service.dart';
 
 part 'donor_history_event.dart';
 part 'donor_history_state.dart';
@@ -20,8 +21,19 @@ class DonorHistoryBloc extends Bloc<DonorHistoryEvent, DonorHistoryState> {
           location: event.location.isNotEmpty ? event.location : '-',
         );
 
+        UserModel user = await _firestore.getUser(event.email);
+
+        if (user.lastDonation == null) {
+          await _firestore.updateLastDonation(user, event.date);
+        } else {
+          if (AppFunction.isLatestTimestamp(event.date, user.lastDonation!)) {
+            await _firestore.updateLastDonation(user, event.date);
+          }
+        }
+
         List<DonorHistoryModel> donorHistories =
             await _firestore.getDonorHistories();
+
         emit(DonorHistoryLoaded(donorHistories));
       } catch (e) {
         emit(DonorHistoryError(e.toString()));

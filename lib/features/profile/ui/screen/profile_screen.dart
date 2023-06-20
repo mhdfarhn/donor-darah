@@ -272,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               child: TextButton(
                 onPressed: () {
-                  context.read<AuthBloc>().add(SignOut());
+                  context.read<AuthBloc>().add(SignOut(_user!.email!));
                 },
                 child: Text(
                   'Ya',
@@ -394,6 +394,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       if (formKey.currentState!.validate()) {
                                         context.read<DonorHistoryBloc>().add(
                                               CreateDonorHistory(
+                                                email: _user!.email!,
                                                 date: date!,
                                                 location:
                                                     locationController.text,
