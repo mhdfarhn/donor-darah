@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 
 import 'core/blocs/app_bloc_observer.dart';
 import 'core/blocs/auth/auth_bloc.dart';
-import 'core/blocs/donor_history/donor_history_bloc.dart';
 import 'core/blocs/maps/maps_bloc.dart';
 import 'core/blocs/marker/marker_bloc.dart';
 import 'core/blocs/position/position_bloc.dart';
@@ -17,8 +16,10 @@ import 'core/blocs/profile/profile_bloc.dart';
 import 'core/constants/constants.dart';
 import 'core/utils/router.dart';
 import 'features/donor_request/blocs/donor_request/donor_request_bloc.dart';
-import 'features/home/blocs/bloc/active_donor_requests_bloc.dart';
+import 'features/home/blocs/active_donor_requests/active_donor_requests_bloc.dart';
 import 'features/home/blocs/success_donor_requests/success_donor_requests_bloc.dart';
+import 'features/profile/blocs/current_user_donor/current_user_donor_request_bloc.dart';
+import 'features/profile/blocs/donor_history/donor_history_bloc.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -53,6 +54,7 @@ Future<void> setupFlutterNotifications() async {
     'High Importance Notifications',
     description: 'This channel is used for important notifications.',
     enableLights: true,
+    ledColor: AppColor.red,
     importance: Importance.high,
   );
 
@@ -86,7 +88,11 @@ void showFlutterNotification(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
+          enableLights: true,
           icon: 'notification_icon',
+          ledColor: AppColor.red,
+          ledOffMs: 1000,
+          ledOnMs: 500,
         ),
       ),
     );
@@ -144,6 +150,9 @@ class _MainAppState extends State<MainApp> {
             ),
             BlocProvider(
               create: (context) => AuthBloc(),
+            ),
+            BlocProvider(
+              create: (context) => CurrentUserDonorRequestBloc(),
             ),
             BlocProvider(
               create: (context) => DonorHistoryBloc(),

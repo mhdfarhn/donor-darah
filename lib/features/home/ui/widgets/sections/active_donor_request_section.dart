@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../donor_request/data/models/donor_request_model.dart';
 import '../../../../donor_request/ui/widgets/donor_request_active_card.dart';
-import '../../../blocs/bloc/active_donor_requests_bloc.dart';
+import '../../../blocs/active_donor_requests/active_donor_requests_bloc.dart';
 
 class ActiveDonorRequestSection extends StatefulWidget {
   const ActiveDonorRequestSection({

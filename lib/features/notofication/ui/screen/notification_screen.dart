@@ -19,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
           onPressed: () {
             NotificationService().sendNotification(
               token:
-                  'fi1Xqn0RTpuVMHp8EB__nI:APA91bFj46LMynFxKSgHYWzrATDzLYAh9_Y0iHClDZQ-32ab0OfjTceISKTF7Dwj1XwfSg4J1pA2-ZVG6PSLNgjoI3DaG7ElWmnyJFAvMTRgNMum1k5IcqMwX-jPI4-KcLXHuDOyfpIb',
+                  'ev7aZm5xRPGjk4BtdFNjAd:APA91bETgiSsIAy0oBT6oT-NRfxLKJQumutTpXecgoE4vZVMEq1z2lERxt7ANzqnPHXKsYIFJNzPffLNUrOI4ZJw320wElT7X4deRYMzwQzCqXJQOdxIy6tFNAZ7pefnkgrScRvV3wMG',
               title: 'Title',
               text: 'Body',
             );

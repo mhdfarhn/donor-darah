@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/donor_request_model.dart';
 
@@ -23,6 +24,30 @@ class DonorRequestService {
           );
     } on FirebaseException catch (e) {
       throw e.message!;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<List<DonorRequestModel>> getCurrentUserDonorRequests() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String email = user!.email!;
+
+    try {
+      QuerySnapshot snapshot = await _collectionReference
+          .where('email', isEqualTo: email)
+          .orderBy('createdAt', descending: true)
+          .get();
+      List<QueryDocumentSnapshot> docs = snapshot.docs;
+
+      List<DonorRequestModel> donorRequests = <DonorRequestModel>[];
+      if (docs.isNotEmpty) {
+        for (QueryDocumentSnapshot doc in docs) {
+          donorRequests.add(DonorRequestModel.fromSnapshot(doc));
+        }
+      }
+
+      return donorRequests;
     } catch (e) {
       throw e.toString();
     }

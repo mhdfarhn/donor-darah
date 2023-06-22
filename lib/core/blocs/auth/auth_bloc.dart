@@ -21,6 +21,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       String? token = sharedPreferences.getString('token');
 
       if (email != null && token != null) {
+        final String? newToken = await FirebaseMessaging.instance.getToken();
+
+        final UserModel user = await _firestoreService.getUser(email);
+
+        if (user.token != newToken) {
+          await _firestoreService.updateToken(user, newToken!);
+        }
+
+        sharedPreferences.setString('token', newToken!);
+
         emit(AuthAuthenticated());
       } else {
         emit(AuthUnauthenticated());
