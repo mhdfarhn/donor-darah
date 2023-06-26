@@ -18,6 +18,7 @@ import 'core/utils/router.dart';
 import 'features/donor_request/blocs/donor_request/donor_request_bloc.dart';
 import 'features/home/blocs/active_donor_requests/active_donor_requests_bloc.dart';
 import 'features/home/blocs/success_donor_requests/success_donor_requests_bloc.dart';
+import 'features/notofication/bloc/notification_bloc.dart';
 import 'features/profile/blocs/current_user_donor/current_user_donor_request_bloc.dart';
 import 'features/profile/blocs/donor_history/donor_history_bloc.dart';
 import 'firebase_options.dart';
@@ -93,6 +94,7 @@ void showFlutterNotification(RemoteMessage message) {
           ledColor: AppColor.red,
           ledOffMs: 1000,
           ledOnMs: 500,
+          styleInformation: BigTextStyleInformation(notification.body!),
         ),
       ),
     );
@@ -165,6 +167,9 @@ class _MainAppState extends State<MainApp> {
             ),
             BlocProvider(
               create: (context) => MapsBloc(),
+            ),
+            BlocProvider(
+              create: (context) => NotificationBloc(),
             ),
             BlocProvider(
               create: (context) => PositionBloc(),

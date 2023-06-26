@@ -1,18 +1,21 @@
+import 'package:donor_darah/core/utils/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../notofication/bloc/notification_bloc.dart';
 import '../../data/models/result_model.dart';
 
 class ResultScreen extends StatefulWidget {
-  final List<ResultModel> results;
+  final Map<String, dynamic> extra;
 
   const ResultScreen({
     Key? key,
-    required this.results,
+    required this.extra,
   }) : super(key: key);
 
   @override
@@ -22,10 +25,12 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   bool isMap = true;
   Set<Marker> markers = <Marker>{};
+  Map<String, dynamic> extra = <String, dynamic>{};
 
   @override
   void initState() {
-    for (var element in widget.results) {
+    extra = widget.extra;
+    for (var element in extra['results']) {
       markers.add(element.marker);
     }
     super.initState();
@@ -115,60 +120,106 @@ class _ResultScreenState extends State<ResultScreen> {
                   )
                 : ListView(
                     children: List.generate(
-                      widget.results.length,
+                      extra['results'].length,
                       (index) {
-                        final String gender =
-                            widget.results[index].donor.gender!;
-                        final int age = AppFunction.getAge(
-                            widget.results[index].donor.dateOfBirth!);
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          margin: EdgeInsets.only(
-                            left: 16.0.w,
-                            top: 8.0.h,
-                            right: 16.0.w,
-                            bottom: index != widget.results.length - 1
-                                ? 8.0.h
-                                : 16.0.h,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 12.0.h,
-                              horizontal: 16.0.w,
+                        final ResultModel result = extra['results'][index];
+                        final String gender = result.donor.gender!;
+                        final int age =
+                            AppFunction.getAge(result.donor.dateOfBirth!);
+                        final String distanceInKilometer =
+                            markers.toList()[index].infoWindow.title!;
+                        final String distanceInMeter =
+                            markers.toList()[index].infoWindow.snippet!;
+
+                        return BlocListener<NotificationBloc,
+                            NotificationState>(
+                          listener: (context, state) {
+                            if (state is NotificationSending) {
+                              debugPrint('Mengirim permintaan donor.');
+                              // showRequestSnackBar(
+                              //   context,
+                              //   'Permintaan donor sedang dikirimkan.',
+                              // );
+                            } else if (state is NotificationSent) {
+                              showRequestSnackBar(
+                                context,
+                                'Permintaan donor terkirim.',
+                              );
+                            } else if (state is NotificationNotSent) {
+                              showRequestSnackBar(
+                                context,
+                                state.message,
+                              );
+                            } else if (state is NotificationError) {
+                              showRequestSnackBar(
+                                context,
+                                state.error,
+                              );
+                            }
+                          },
+                          child: Card(
+                            margin: EdgeInsets.only(
+                              left: 16.0.w,
+                              top: 8.0.h,
+                              right: 16.0.w,
+                              bottom: index != extra['results'].length - 1
+                                  ? 8.0.h
+                                  : 16.0.h,
                             ),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: AppColor.grey,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.solidUser,
-                                    color: gender != 'Laki-laki'
-                                        ? Colors.pink
-                                        : Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 12.0.h,
+                                horizontal: 16.0.w,
+                              ),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: AppColor.grey,
+                                    child: FaIcon(
+                                      FontAwesomeIcons.solidUser,
+                                      color: gender != 'Laki-laki'
+                                          ? Colors.pink
+                                          : Colors.blue,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 16.0.w),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.results[index].donor.name),
-                                      Text('$gender, $age tahun'),
-                                      Text(
-                                          'Jarak: ${markers.toList()[index].infoWindow.title} (${markers.toList()[index].infoWindow.snippet})'),
-                                    ],
+                                  SizedBox(width: 16.0.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(result.donor.name),
+                                        Text('$gender, $age tahun'),
+                                        Text(
+                                            'Jarak: $distanceInKilometer ($distanceInMeter)'),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 16.0.w),
-                                InkWell(
-                                  onTap: () {},
-                                  child: const FaIcon(
-                                      FontAwesomeIcons.solidPaperPlane),
-                                ),
-                              ],
+                                  SizedBox(width: 16.0.w),
+                                  InkWell(
+                                    onTap: () {
+                                      context.read<NotificationBloc>().add(
+                                            SendNotification(
+                                              donorRequestId:
+                                                  extra['donorRequestId'],
+                                              receiverEmail: result.donor.email,
+                                              receiverName: result.donor.name,
+                                              title: 'Butuh Donor',
+                                              text:
+                                                  'Seseorang $distanceInKilometer dari lokasi Anda membutuhkan donor Anda',
+                                              category: NotificationCategory
+                                                  .donorRequest,
+                                            ),
+                                          );
+                                    },
+                                    child: const FaIcon(
+                                        FontAwesomeIcons.solidPaperPlane),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -180,4 +231,12 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
     );
   }
+}
+
+showRequestSnackBar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(text),
+    ),
+  );
 }

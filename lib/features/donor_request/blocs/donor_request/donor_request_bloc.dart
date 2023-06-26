@@ -25,7 +25,7 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
 
         final UserModel user = await _firestore.getUser(firebaseUser!.email!);
 
-        _donorRequest.createDonorRequest(
+        final String uid = await _donorRequest.createDonorRequest(
           event.requestDonor.copyWith(
             email: user.email,
             name: user.name,
@@ -68,7 +68,11 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
             );
           }
         }
-        emit(DonorRequestSuccess(results, event.requestDonor.location));
+        emit(DonorRequestSuccess(
+          donorRequestId: uid,
+          results: results,
+          requestLocation: event.requestDonor.location,
+        ));
       } catch (e) {
         emit(DonorRequestError(e.toString()));
       }

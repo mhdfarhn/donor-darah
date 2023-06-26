@@ -14,7 +14,6 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/widgets/buttons/buttons.dart';
 import '../../../../core/widgets/input_fields/input_fields.dart';
 import '../../../donor_request/blocs/donor_request/donor_request_bloc.dart';
-import '../../../result/data/models/result_model.dart';
 import '../../../donor_request/data/models/donor_request_model.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -132,10 +131,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: BlocConsumer<DonorRequestBloc, DonorRequestState>(
                       listener: (context, state) {
                         if (state is DonorRequestSuccess) {
-                          List<ResultModel> results = state.results;
+                          Map<String, dynamic> extra = {
+                            'results': state.results,
+                            'donorRequestId': state.donorRequestId,
+                            'requestLocation': state.requestLocation,
+                          };
                           context.goNamed(
                             'result',
-                            extra: results,
+                            extra: extra,
                           );
                         } else if (state is DonorRequestError) {
                           ScaffoldMessenger.of(context).showSnackBar(

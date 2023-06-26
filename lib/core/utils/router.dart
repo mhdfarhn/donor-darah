@@ -5,7 +5,6 @@ import '../../features/edit_profile/ui/screen/edit_profile_screen.dart';
 import '../../features/home/ui/screen/home_screen.dart';
 import '../../features/notofication/ui/screen/notification_screen.dart';
 import '../../features/profile/ui/screen/profile_screen.dart';
-import '../../features/result/data/models/result_model.dart';
 import '../../features/result/ui/screen/result_screen.dart';
 import '../../features/search/ui/screen/search_screen.dart';
 import '../../features/sign_in/ui/screen/sign_in_screen.dart';
@@ -99,8 +98,9 @@ final GoRouter router = GoRouter(
       path: '/result',
       name: 'result',
       builder: (context, state) {
-        List<ResultModel> results = state.extra as List<ResultModel>;
-        return ResultScreen(results: results);
+        // List<ResultModel> results = state.extra as List<ResultModel>;
+        Map<String, dynamic> results = state.extra as Map<String, dynamic>;
+        return ResultScreen(extra: results);
       },
     ),
   ],

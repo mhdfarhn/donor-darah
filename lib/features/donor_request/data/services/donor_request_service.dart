@@ -7,10 +7,10 @@ class DonorRequestService {
   final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('donorRequests');
 
-  Future<void> createDonorRequest(DonorRequestModel requestDonor) async {
+  Future<String> createDonorRequest(DonorRequestModel requestDonor) async {
     try {
-      String uid = _collectionReference.id;
-      _collectionReference.doc(uid).set(
+      String uid = _collectionReference.doc().id;
+      await _collectionReference.doc(uid).set(
             requestDonor
                 .copyWith(
                   uid: uid,
@@ -22,6 +22,8 @@ class DonorRequestService {
                 )
                 .toMap(),
           );
+
+      return uid;
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {

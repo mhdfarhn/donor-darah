@@ -29,6 +29,17 @@ class FirestoreService {
     }
   }
 
+  Future<String?> getUserToken(String email) async {
+    try {
+      DocumentSnapshot doc = await _usersCollectionReference.doc(email).get();
+      UserModel user = UserModel.fromSnapshot(doc);
+
+      return user.token;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<UserModel> getUser(String email) async {
     try {
       DocumentSnapshot doc = await _usersCollectionReference.doc(email).get();

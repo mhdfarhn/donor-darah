@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math.dart';
 
+import '../utils/enums.dart';
+
 class AppFunction {
   static bool isLatestTimestamp(Timestamp newTime, Timestamp lastTime) {
     final DateTime after =
@@ -32,6 +34,19 @@ class AppFunction {
 
     int age = duration.years;
     return age;
+  }
+
+  static String notificationCategory(NotificationCategory category) {
+    switch (category) {
+      case NotificationCategory.donorRequest:
+        return 'donor-request';
+      case NotificationCategory.requestAccepted:
+        return 'request-accepted';
+      case NotificationCategory.requestRejected:
+        return 'request-rejected';
+      default:
+        return 'default';
+    }
   }
 
   static Future<void> getLocationPermission() async {
