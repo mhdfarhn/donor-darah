@@ -9,20 +9,22 @@ abstract class NotificationEvent extends Equatable {
 
 class LoadNotifications extends NotificationEvent {}
 
-class SendNotification extends NotificationEvent {
+class SendDonorRequestNotification extends NotificationEvent {
   final String donorRequestId;
   final String receiverEmail;
   final String receiverName;
   final String title;
-  final String text;
+  final String distance;
+  final bool isAccepted;
   final NotificationCategory category;
 
-  const SendNotification({
+  const SendDonorRequestNotification({
     required this.donorRequestId,
     required this.receiverEmail,
     required this.receiverName,
     required this.title,
-    required this.text,
+    required this.distance,
+    required this.isAccepted,
     required this.category,
   });
 
@@ -32,7 +34,8 @@ class SendNotification extends NotificationEvent {
         receiverEmail,
         receiverName,
         title,
-        text,
+        distance,
+        isAccepted,
         category,
       ];
 }

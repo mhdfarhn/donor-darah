@@ -202,14 +202,14 @@ class _ResultScreenState extends State<ResultScreen> {
                                   InkWell(
                                     onTap: () {
                                       context.read<NotificationBloc>().add(
-                                            SendNotification(
+                                            SendDonorRequestNotification(
                                               donorRequestId:
                                                   extra['donorRequestId'],
                                               receiverEmail: result.donor.email,
                                               receiverName: result.donor.name,
                                               title: 'Butuh Donor',
-                                              text:
-                                                  'Seseorang $distanceInKilometer dari lokasi Anda membutuhkan donor Anda',
+                                              distance: distanceInKilometer,
+                                              isAccepted: false,
                                               category: NotificationCategory
                                                   .donorRequest,
                                             ),

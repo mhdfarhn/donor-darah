@@ -19,7 +19,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final FirestoreService _firestore = FirestoreService();
 
   NotificationBloc() : super(NotificationInitial()) {
-    on<SendNotification>((event, emit) async {
+    on<SendDonorRequestNotification>((event, emit) async {
       emit(NotificationSending());
       try {
         final User? currentUser = FirebaseAuth.instance.currentUser;
@@ -29,15 +29,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             AppFunction.notificationCategory(event.category);
         final String? token =
             await _firestore.getUserToken(event.receiverEmail);
+
+        final String text =
+            '${user.name} (${event.distance}) membutuhkan donor Anda.';
         final NotificationModel notification = NotificationModel(
           donorRequestId: event.donorRequestId,
           senderEmail: user.email,
           senderName: user.name,
           receiverEmail: event.receiverEmail,
           receiverName: event.receiverName,
-          accepted: false,
+          accepted: event.isAccepted,
           title: event.title,
-          text: event.text,
+          text: text,
           category: category,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now(),
@@ -47,7 +50,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           final bool isNotificationSent = await _notification.sendNotification(
             token: token,
             title: event.title,
-            text: event.text,
+            text: text,
           );
           debugPrint(isNotificationSent.toString());
           if (isNotificationSent) {

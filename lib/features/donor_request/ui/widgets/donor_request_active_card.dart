@@ -10,6 +10,7 @@ class DonorRequestCard extends StatelessWidget {
   final String distanceInKilometer;
   final String distanceInMeter;
   final int index;
+  final int maxIndex;
 
   const DonorRequestCard({
     super.key,
@@ -18,13 +19,18 @@ class DonorRequestCard extends StatelessWidget {
     required this.distanceInKilometer,
     required this.distanceInMeter,
     required this.index,
+    required this.maxIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(
-        bottom: index != 2 ? 8.0.h : 0.0,
+        bottom: maxIndex == 2
+            ? index != 2
+                ? 8.0.h
+                : 0.0
+            : 8.0.h,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),

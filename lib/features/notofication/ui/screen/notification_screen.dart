@@ -114,7 +114,79 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     color: AppColor.red,
                                     size: 28.0,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Setuju'),
+                                          content: const Text(
+                                              'Anda setuju untuk mendonorkan darah Anda?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                'Tidak',
+                                                style: TextStyle(
+                                                  color: AppColor.black,
+                                                  fontSize: AppFontSize.body,
+                                                ),
+                                              ),
+                                            ),
+                                            BlocConsumer<NotificationBloc,
+                                                NotificationState>(
+                                              listener: ((context, state) {
+                                                if (state
+                                                    is NotificationError) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content:
+                                                          Text(state.error),
+                                                    ),
+                                                  );
+                                                } else if (state
+                                                    is NotificationLoaded) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          'Anda setuju untuk donor. Nomor Anda akan dihubungi.'),
+                                                    ),
+                                                  );
+                                                }
+                                              }),
+                                              builder: (context, state) {
+                                                if (state
+                                                    is NotificationInitial) {
+                                                  return TextButton(
+                                                    onPressed: () {},
+                                                    child: Text(
+                                                      'Ya',
+                                                      style: TextStyle(
+                                                        color: AppColor.black,
+                                                        fontSize:
+                                                            AppFontSize.body,
+                                                      ),
+                                                    ),
+                                                  );
+                                                } else if (state
+                                                    is NotificationLoading) {
+                                                  return const CircularProgressIndicator(
+                                                    color: AppColor.red,
+                                                  );
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ],
                             ),

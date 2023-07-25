@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           SizedBox(height: 16.0.h),
           Padding(

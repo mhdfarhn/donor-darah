@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../donor_request/data/models/donor_request_model.dart';
@@ -61,9 +62,29 @@ class _ActiveDonorRequestSectionState extends State<ActiveDonorRequestSection> {
                     distanceInKilometer: distanceInKilometer,
                     distanceInMeter: distanceInMeter,
                     index: index,
+                    maxIndex: 2,
                   );
                 },
-              ),
+              )..insert(
+                  3,
+                  TextButton(
+                    onPressed: () {
+                      context.goNamed(
+                        'donor_request',
+                        extra: {
+                          'donor_requests': donorRequests,
+                          'distances': distances,
+                        },
+                      );
+                    },
+                    child: const Text(
+                      'Lihat lebih banyak',
+                      style: TextStyle(
+                        color: AppColor.brown,
+                      ),
+                    ),
+                  ),
+                ),
             );
           } else {
             return Text(

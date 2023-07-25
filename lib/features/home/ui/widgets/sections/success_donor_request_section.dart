@@ -60,9 +60,18 @@ class _SuccessDonorRequestSectionState
                     distanceInKilometer: distanceInKilometer,
                     distanceInMeter: distanceInMeter,
                     index: index,
+                    maxIndex: 2,
                   );
                 },
-              ),
+              )..insert(
+                  3,
+                  Text(
+                    '+${donorRequests.length - 3} donor selesai lainnya.',
+                    style: TextStyle(
+                      fontSize: AppFontSize.body,
+                    ),
+                  ),
+                ),
             );
           } else {
             return Text(

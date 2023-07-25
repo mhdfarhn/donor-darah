@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/donor_request/ui/screen/donor_request_screen.dart';
 import '../../features/edit_profile/ui/screen/edit_profile_screen.dart';
 import '../../features/home/ui/screen/home_screen.dart';
 import '../../features/notofication/ui/screen/notification_screen.dart';
@@ -56,6 +57,17 @@ final GoRouter router = GoRouter(
               name: 'home',
               builder: (context, state) => const HomeScreen(),
               routes: <GoRoute>[
+                GoRoute(
+                  path: 'donor-request',
+                  name: 'donor_request',
+                  builder: (context, state) {
+                    Map<String, dynamic> extra =
+                        state.extra as Map<String, dynamic>;
+                    return DonorRequestScreen(
+                      extra: extra,
+                    );
+                  },
+                ),
                 GoRoute(
                   path: 'search',
                   name: 'search',
