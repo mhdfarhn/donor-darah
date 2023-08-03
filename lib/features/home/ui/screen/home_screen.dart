@@ -23,9 +23,8 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 16.0.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: TitleButton(
+            child: const TitleText(
               title: 'Peta',
-              onTap: () {},
             ),
           ),
           SizedBox(height: 16.0.h),
@@ -36,9 +35,8 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 24.0.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: TitleButton(
+            child: const TitleText(
               title: 'Butuh Donor',
-              onTap: () {},
             ),
           ),
           SizedBox(height: 16.0.h),
@@ -49,9 +47,8 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: 24.0.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: TitleButton(
+            child: const TitleText(
               title: 'Donor Selesai',
-              onTap: () {},
             ),
           ),
           SizedBox(height: 16.0.h),

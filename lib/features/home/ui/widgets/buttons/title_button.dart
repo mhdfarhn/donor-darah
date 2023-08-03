@@ -2,36 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_font_size.dart';
 
-class TitleButton extends StatelessWidget {
+class TitleText extends StatelessWidget {
   final String title;
-  final Function() onTap;
 
-  const TitleButton({
+  const TitleText({
     super.key,
     required this.title,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      onTap: onTap,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: AppFontSize.heading,
-              fontWeight: FontWeight.w600,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: AppFontSize.heading,
+            fontWeight: FontWeight.w600,
           ),
-          // const FaIcon(
-          //   FontAwesomeIcons.arrowRight,
-          // )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

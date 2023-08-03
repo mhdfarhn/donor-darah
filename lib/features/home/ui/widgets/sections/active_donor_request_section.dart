@@ -66,7 +66,7 @@ class _ActiveDonorRequestSectionState extends State<ActiveDonorRequestSection> {
                   );
                 },
               )..insert(
-                  3,
+                  donorRequests.length <= 3 ? donorRequests.length : 3,
                   TextButton(
                     onPressed: () {
                       context.goNamed(

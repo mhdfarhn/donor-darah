@@ -30,6 +30,7 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
             email: user.email,
             name: user.name,
             bloodType: event.requestDonor.bloodType,
+            phoneNumber: event.requestDonor.phoneNumber,
             location: event.requestDonor.location,
             active: event.requestDonor.active,
             createdAt: event.requestDonor.createdAt,

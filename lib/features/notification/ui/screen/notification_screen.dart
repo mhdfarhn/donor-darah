@@ -151,7 +151,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     is NotificationLoaded) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
-                                                    SnackBar(
+                                                    const SnackBar(
                                                       content: Text(
                                                           'Anda setuju untuk donor. Nomor Anda akan dihubungi.'),
                                                     ),

@@ -15,6 +15,7 @@ class DonorRequestService {
                 .copyWith(
                   uid: uid,
                   bloodType: requestDonor.bloodType,
+                  phoneNumber: requestDonor.phoneNumber,
                   location: requestDonor.location,
                   active: requestDonor.active,
                   createdAt: requestDonor.createdAt,

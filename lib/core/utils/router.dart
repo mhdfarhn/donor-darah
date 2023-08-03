@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../features/donor_request/ui/screen/donor_request_screen.dart';
 import '../../features/edit_profile/ui/screen/edit_profile_screen.dart';
 import '../../features/home/ui/screen/home_screen.dart';
-import '../../features/notofication/ui/screen/notification_screen.dart';
+// Notification
+// import '../../features/notification/ui/screen/notification_screen.dart';
 import '../../features/profile/ui/screen/profile_screen.dart';
 import '../../features/result/ui/screen/result_screen.dart';
 import '../../features/search/ui/screen/search_screen.dart';
@@ -17,8 +18,9 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _profileNavigatorKey =
     GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _notificationNavigatorKey =
-    GlobalKey<NavigatorState>();
+// Notification
+// final GlobalKey<NavigatorState> _notificationNavigatorKey =
+//     GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
@@ -77,16 +79,16 @@ final GoRouter router = GoRouter(
             ),
           ],
         ),
-        StatefulShellBranch(
-          navigatorKey: _notificationNavigatorKey,
-          routes: <GoRoute>[
-            GoRoute(
-              path: '/notification',
-              name: 'notification',
-              builder: (context, state) => const NotificationScreen(),
-            ),
-          ],
-        ),
+        // StatefulShellBranch(
+        //   navigatorKey: _notificationNavigatorKey,
+        //   routes: <GoRoute>[
+        //     GoRoute(
+        //       path: '/notification',
+        //       name: 'notification',
+        //       builder: (context, state) => const NotificationScreen(),
+        //     ),
+        //   ],
+        // ),
         StatefulShellBranch(
           navigatorKey: _profileNavigatorKey,
           routes: [

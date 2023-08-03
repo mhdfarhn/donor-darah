@@ -33,10 +33,11 @@ class ScaffoldWithNavbar extends StatelessWidget {
             icon: FaIcon(FontAwesomeIcons.house),
             label: '',
           ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidBell),
-            label: '',
-          ),
+          // Notification
+          // BottomNavigationBarItem(
+          //   icon: FaIcon(FontAwesomeIcons.solidBell),
+          //   label: '',
+          // ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.solidUser),
             label: '',

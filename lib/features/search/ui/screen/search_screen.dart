@@ -27,6 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _phoneNumberController = TextEditingController();
   Set<Marker> markers = <Marker>{};
   String? _bloodType;
   GeoPoint? _location;
@@ -61,7 +62,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
               ),
             ),
-            SizedBox(height: 24.0.h),
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: PhoneNumberField(
+                controller: _phoneNumberController,
+              ),
+            ),
+            SizedBox(height: 16.0.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
               child: BlocBuilder<PositionBloc, PositionState>(
@@ -164,6 +172,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                       RequestDonor(
                                         DonorRequestModel(
                                           bloodType: _bloodType!,
+                                          phoneNumber:
+                                              _phoneNumberController.text,
                                           location: _location!,
                                           active: true,
                                           createdAt: Timestamp.now(),

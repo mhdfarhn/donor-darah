@@ -6,6 +6,7 @@ class DonorRequestModel extends Equatable {
   final String? email;
   final String? name;
   final String bloodType;
+  final String phoneNumber;
   final GeoPoint location;
   final bool active;
   final Timestamp createdAt;
@@ -16,6 +17,7 @@ class DonorRequestModel extends Equatable {
     this.email,
     this.name,
     required this.bloodType,
+    required this.phoneNumber,
     required this.location,
     required this.active,
     required this.createdAt,
@@ -27,6 +29,7 @@ class DonorRequestModel extends Equatable {
     String? email,
     String? name,
     required String bloodType,
+    required String phoneNumber,
     required GeoPoint location,
     required bool active,
     required Timestamp createdAt,
@@ -37,6 +40,7 @@ class DonorRequestModel extends Equatable {
       email: email ?? this.email,
       name: name ?? this.name,
       bloodType: bloodType,
+      phoneNumber: phoneNumber,
       location: location,
       active: active,
       createdAt: createdAt,
@@ -50,6 +54,7 @@ class DonorRequestModel extends Equatable {
       email: doc['email'],
       name: doc['name'],
       bloodType: doc['bloodType'],
+      phoneNumber: doc['phoneNumber'],
       location: doc['location'],
       active: doc['active'],
       createdAt: doc['createdAt'],
@@ -63,6 +68,7 @@ class DonorRequestModel extends Equatable {
       'email': email,
       'name': name,
       'bloodType': bloodType,
+      'phoneNumber': phoneNumber,
       'location': location,
       'active': active,
       'createdAt': createdAt,
@@ -76,6 +82,7 @@ class DonorRequestModel extends Equatable {
         email,
         name,
         bloodType,
+        phoneNumber,
         location,
         active,
         createdAt,
