@@ -215,7 +215,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   // },
                                   onTap: _hasCallSupport
                                       ? () => setState(() {
-                                            makePhoneCall(
+                                            AppFunction.makePhoneCall(
                                                 result.donor.phoneNumber!);
                                           })
                                       : null,
@@ -254,14 +254,6 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
     );
   }
-}
-
-Future<void> makePhoneCall(String phoneNumber) async {
-  final Uri launchUri = Uri(
-    scheme: 'tel',
-    path: phoneNumber,
-  );
-  await launchUrl(launchUri);
 }
 
 showRequestSnackBar(BuildContext context, String text) {
