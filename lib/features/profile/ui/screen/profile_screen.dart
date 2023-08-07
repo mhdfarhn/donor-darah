@@ -25,6 +25,7 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           const ProfileSection(),
           Divider(thickness: 1.0.h),

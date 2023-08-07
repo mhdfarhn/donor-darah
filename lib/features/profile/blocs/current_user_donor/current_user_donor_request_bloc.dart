@@ -23,5 +23,19 @@ class CurrentUserDonorRequestBloc
         emit(CurrentUserDonorRequestError(e.toString()));
       }
     });
+
+    on<UpdateCurrentUserDonorReequest>((event, emit) async {
+      emit(CurrentUserDonorRequestLoding());
+      try {
+        await _donorRequest.updateDonorRequestActive(event.donorRequest);
+
+        List<DonorRequestModel> requests =
+            await _donorRequest.getCurrentUserDonorRequests();
+
+        emit(CurrentUserDonorRequestLoaded(requests));
+      } catch (e) {
+        emit(CurrentUserDonorRequestError(e.toString()));
+      }
+    });
   }
 }

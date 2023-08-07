@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../donor_request/data/models/donor_request_model.dart';
 import '../../../blocs/current_user_donor/current_user_donor_request_bloc.dart';
+import '../../../functions/functions.dart';
 
 class DonorRequestSection extends StatefulWidget {
   const DonorRequestSection({
@@ -68,7 +70,8 @@ class _DonorRequestSectionState extends State<DonorRequestSection> {
               return requests.isNotEmpty
                   ? Column(
                       children: List.generate(
-                        requests.length,
+                        requests.length <= 3 ? requests.length : 3,
+                        // requests.length,
                         (index) {
                           DonorRequestModel request = requests[index];
                           bool active = request.active;
@@ -110,11 +113,12 @@ class _DonorRequestSectionState extends State<DonorRequestSection> {
                                 ),
                               ),
                               trailing: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    active = !active;
-                                  });
-                                },
+                                onTap: active
+                                    ? () => showDonorRequestCompletedDialog(
+                                          context,
+                                          request,
+                                        )
+                                    : null,
                                 child: CircleAvatar(
                                   backgroundColor:
                                       active ? AppColor.grey : AppColor.red,
@@ -130,7 +134,8 @@ class _DonorRequestSectionState extends State<DonorRequestSection> {
                             ),
                           );
                         },
-                      )..insert(
+                      )
+                        ..insert(
                           0,
                           Padding(
                             padding: EdgeInsets.fromLTRB(
@@ -141,6 +146,23 @@ class _DonorRequestSectionState extends State<DonorRequestSection> {
                             ),
                             child: const Text(
                                 'Tekan tanda silang jika Anda telah mendapatkan donor yang dibutuhkan.'),
+                          ),
+                        )
+                        ..insert(
+                          requests.length <= 3 ? requests.length + 1 : 4,
+                          TextButton(
+                            onPressed: () {
+                              context.goNamed(
+                                'donor_request_histories',
+                                extra: requests,
+                              );
+                            },
+                            child: const Text(
+                              'Lihat lebih banyak',
+                              style: TextStyle(
+                                color: AppColor.brown,
+                              ),
+                            ),
                           ),
                         ),
                     )

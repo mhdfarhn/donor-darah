@@ -8,3 +8,12 @@ abstract class CurrentUserDonorRequestEvent extends Equatable {
 }
 
 class LoadCurrentUserDonorRequest extends CurrentUserDonorRequestEvent {}
+
+class UpdateCurrentUserDonorReequest extends CurrentUserDonorRequestEvent {
+  final DonorRequestModel donorRequest;
+
+  const UpdateCurrentUserDonorReequest(this.donorRequest);
+
+  @override
+  List<Object> get props => [donorRequest];
+}

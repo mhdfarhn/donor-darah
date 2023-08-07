@@ -64,13 +64,15 @@ class _SuccessDonorRequestSectionState
                   );
                 },
               )..insert(
-                  3,
-                  Text(
-                    '+${donorRequests.length - 3} donor selesai lainnya.',
-                    style: TextStyle(
-                      fontSize: AppFontSize.body,
-                    ),
-                  ),
+                  donorRequests.length <= 3 ? donorRequests.length : 3,
+                  donorRequests.length == 3
+                      ? Text(
+                          '+${donorRequests.length - 3} donor selesai lainnya.',
+                          style: TextStyle(
+                            fontSize: AppFontSize.body,
+                          ),
+                        )
+                      : Container(),
                 ),
             );
           } else {

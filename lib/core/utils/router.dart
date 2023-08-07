@@ -1,7 +1,9 @@
+import 'package:donor_darah/features/donor_request/data/models/donor_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/donor_request/ui/screen/donor_request_screen.dart';
+import '../../features/donor_request_histories/ui/screen/donor_request_histories_screen.dart';
 import '../../features/edit_profile/ui/screen/edit_profile_screen.dart';
 import '../../features/home/ui/screen/home_screen.dart';
 // Notification
@@ -101,6 +103,15 @@ final GoRouter router = GoRouter(
                   path: 'edit-profile',
                   name: 'edit_profile',
                   builder: (context, state) => const EditProfileScreen(),
+                ),
+                GoRoute(
+                  path: 'donor-request-histories',
+                  name: 'donor_request_histories',
+                  builder: (context, state) {
+                    List<DonorRequestModel> requests =
+                        state.extra as List<DonorRequestModel>;
+                    return DonorRequestHistoriesScreen(requests: requests);
+                  },
                 ),
               ],
             ),

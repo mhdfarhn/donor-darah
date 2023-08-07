@@ -76,4 +76,23 @@ class DonorRequestService {
       throw e.toString();
     }
   }
+
+  updateDonorRequestActive(DonorRequestModel donorRequest) async {
+    try {
+      _collectionReference.doc(donorRequest.uid).update(
+            donorRequest
+                .copyWith(
+                  bloodType: donorRequest.bloodType,
+                  phoneNumber: donorRequest.phoneNumber,
+                  location: donorRequest.location,
+                  active: false,
+                  createdAt: donorRequest.createdAt,
+                  updatedAt: Timestamp.now(),
+                )
+                .toMap(),
+          );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

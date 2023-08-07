@@ -65,7 +65,10 @@ class _DonorHistorySectionState extends State<DonorHistorySection> {
 
               return donorHistories.isNotEmpty
                   ? Column(
-                      children: List.generate(donorHistories.length, (index) {
+                      children: List.generate(
+                          donorHistories.length <= 3
+                              ? donorHistories.length
+                              : 3, (index) {
                         String day = DateFormat.d()
                             .format(donorHistories[index].date.toDate());
                         String month = DateFormat.MMMM()
@@ -105,7 +108,24 @@ class _DonorHistorySectionState extends State<DonorHistorySection> {
                             ),
                           ),
                         );
-                      }),
+                      })
+                        ..insert(
+                          donorHistories.length <= 3
+                              ? donorHistories.length
+                              : 3,
+                          donorHistories.length == 3
+                              ? Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: 16.0.h),
+                                  child: Text(
+                                    '+${donorHistories.length - 3} riwayat donor lainnya.',
+                                    style: TextStyle(
+                                      fontSize: AppFontSize.body,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                        ),
                     )
                   : Padding(
                       padding: EdgeInsets.fromLTRB(
