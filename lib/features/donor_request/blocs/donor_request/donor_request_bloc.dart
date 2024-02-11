@@ -78,7 +78,9 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
             }
           }
         }
+        // Sort results
         results.sort((a, b) => a.slocDistance.compareTo(b.slocDistance));
+
         emit(DonorRequestSuccess(
           donorRequestId: uid,
           results: results,
