@@ -9,6 +9,7 @@ environment:
 dependencies:
   age_calculator: ^1.0.0
   cloud_firestore: ^4.8.0
+  connectivity_plus: ^5.0.2
   cupertino_icons: ^1.0.5
   equatable: ^2.0.5
   firebase_auth: ^4.6.2
@@ -26,6 +27,7 @@ dependencies:
   google_maps_flutter: ^2.3.0
   http: ^1.0.0
   intl: ^0.18.1
+  maps_launcher: ^2.2.0
   permission_handler: ^10.3.0
   shared_preferences: ^2.1.2
   url_launcher: ^6.1.12

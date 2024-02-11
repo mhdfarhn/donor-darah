@@ -28,12 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
           Timer(
-            const Duration(seconds: 2),
+            const Duration(seconds: 1),
             () => context.goNamed('auth'),
+          );
+        } else if (state is AuthAdminAuthenticated) {
+          Timer(
+            const Duration(seconds: 1),
+            () => context.goNamed('admin'),
           );
         } else if (state is AuthAuthenticated) {
           Timer(
-            const Duration(seconds: 2),
+            const Duration(seconds: 1),
             () => context.goNamed('home'),
           );
         }

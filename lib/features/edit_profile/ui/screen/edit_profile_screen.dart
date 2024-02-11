@@ -59,6 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profil'),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Form(

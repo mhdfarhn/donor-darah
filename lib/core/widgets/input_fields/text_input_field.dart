@@ -12,6 +12,7 @@ class TextInputField extends StatefulWidget {
   final bool obsecureText;
   final bool readOnly;
   final void Function()? onTap;
+  final String? hint;
 
   const TextInputField({
     super.key,
@@ -22,6 +23,7 @@ class TextInputField extends StatefulWidget {
     this.obsecureText = false,
     this.readOnly = false,
     this.onTap,
+    this.hint,
   });
 
   @override
@@ -41,6 +43,7 @@ class _TextInputFieldState extends State<TextInputField> {
       readOnly: widget.readOnly,
       onTap: widget.onTap,
       decoration: InputDecoration(
+        hintText: widget.hint,
         suffix: widget.obsecureText != true
             ? const SizedBox()
             : Padding(

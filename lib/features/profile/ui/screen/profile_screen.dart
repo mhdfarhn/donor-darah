@@ -14,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
+        foregroundColor: Colors.white,
         centerTitle: true,
         actions: [
           IconButton(
@@ -25,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        physics: const BouncingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
         children: [
           const ProfileSection(),
           Divider(thickness: 1.0.h),

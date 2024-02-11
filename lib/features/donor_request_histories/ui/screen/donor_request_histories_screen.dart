@@ -19,10 +19,11 @@ class DonorRequestHistoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riwayat Cari Donor'),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: ListView(
-        physics: const BouncingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
         children: List.generate(
           requests.length,
           (index) {

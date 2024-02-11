@@ -17,11 +17,11 @@ class MapSection extends StatefulWidget {
 }
 
 class _MapSectionState extends State<MapSection> {
-  @override
-  void initState() {
-    context.read<MapsBloc>().add(LoadMaps());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   context.read<MapsBloc>().add(LoadMaps());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _MapSectionState extends State<MapSection> {
                 myLocationEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target: state.target,
-                  zoom: 12.0,
+                  zoom: 11.0,
                 ),
                 circles: state.circles,
                 markers: state.markers,

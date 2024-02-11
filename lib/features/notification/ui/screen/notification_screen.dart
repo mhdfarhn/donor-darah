@@ -26,6 +26,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifikasi'),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: BlocBuilder<NotificationBloc, NotificationState>(

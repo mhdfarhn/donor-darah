@@ -40,10 +40,17 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
+  void dispose() {
+    _phoneNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cari Donor'),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Form(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,17 +27,30 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   bool _hasCallSupport = false;
-  bool isMap = true;
-  Set<Marker> markers = <Marker>{};
-  Map<String, dynamic> extra = <String, dynamic>{};
+  bool _isMap = true;
+  final Set<Marker> _markers = <Marker>{};
+  final Set<Circle> _circles = <Circle>{};
+  Map<String, dynamic> _extra = <String, dynamic>{};
+  GeoPoint _requestLocation = const GeoPoint(4.4708759, 97.964298);
 
   @override
   void initState() {
     super.initState();
-    extra = widget.extra;
-    for (var element in extra['results']) {
-      markers.add(element.marker);
+    _extra = widget.extra;
+    for (var element in _extra['results']) {
+      _markers.add(element.marker);
     }
+    _requestLocation = _extra['requestLocation'];
+    _circles.add(
+      Circle(
+        circleId: const CircleId('request-location'),
+        center: LatLng(_requestLocation.latitude, _requestLocation.longitude),
+        fillColor: AppColor.red.withOpacity(0.1),
+        strokeColor: AppColor.red.withOpacity(0.5),
+        strokeWidth: 1,
+        radius: 10000,
+      ),
+    );
     // Check for phone call support.
     canLaunchUrl(Uri(scheme: 'tel', path: '123')).then((bool result) {
       setState(() {
@@ -57,6 +71,7 @@ class _ResultScreenState extends State<ResultScreen> {
           },
         ),
         title: const Text('Hasil'),
+        foregroundColor: Colors.white,
       ),
       body: Column(
         children: [
@@ -67,14 +82,14 @@ class _ResultScreenState extends State<ResultScreen> {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: isMap ? AppColor.brown : AppColor.grey,
+                    backgroundColor: _isMap ? AppColor.brown : AppColor.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                   onPressed: () {
                     setState(() {
-                      isMap = true;
+                      _isMap = true;
                     });
                   },
                   child: Text(
@@ -82,7 +97,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     style: TextStyle(
                       fontSize: AppFontSize.body,
                       fontWeight: FontWeight.bold,
-                      color: isMap ? AppColor.grey : AppColor.brown,
+                      color: _isMap ? AppColor.grey : AppColor.brown,
                     ),
                   ),
                 ),
@@ -91,14 +106,14 @@ class _ResultScreenState extends State<ResultScreen> {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: isMap ? AppColor.grey : AppColor.brown,
+                    backgroundColor: _isMap ? AppColor.grey : AppColor.brown,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                   onPressed: () {
                     setState(() {
-                      isMap = false;
+                      _isMap = false;
                     });
                   },
                   child: Text(
@@ -106,7 +121,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     style: TextStyle(
                       fontSize: AppFontSize.body,
                       fontWeight: FontWeight.bold,
-                      color: isMap ? AppColor.brown : AppColor.grey,
+                      color: _isMap ? AppColor.brown : AppColor.grey,
                     ),
                   ),
                 ),
@@ -115,30 +130,31 @@ class _ResultScreenState extends State<ResultScreen> {
             ],
           ),
           Expanded(
-            child: isMap
+            child: _isMap
                 ? GoogleMap(
-                    initialCameraPosition: const CameraPosition(
+                    circles: _circles,
+                    initialCameraPosition: CameraPosition(
                       target: LatLng(
-                        4.4708759,
-                        97.964298,
+                        _requestLocation.latitude,
+                        _requestLocation.longitude,
                       ),
-                      zoom: 13.0,
+                      zoom: 11.0,
                     ),
                     myLocationEnabled: true,
-                    markers: markers,
+                    markers: _markers,
                   )
                 : ListView(
                     children: List.generate(
-                      extra['results'].length,
+                      _extra['results'].length,
                       (index) {
-                        final ResultModel result = extra['results'][index];
+                        final ResultModel result = _extra['results'][index];
                         final String gender = result.donor.gender!;
                         final int age =
                             AppFunction.getAge(result.donor.dateOfBirth!);
                         final String distanceInKilometer =
-                            markers.toList()[index].infoWindow.title!;
+                            (result.slocDistance / 1000).toStringAsFixed(2);
                         final String distanceInMeter =
-                            markers.toList()[index].infoWindow.snippet!;
+                            result.slocDistance.toStringAsFixed(2);
 
                         // Notification
                         // return BlocListener<NotificationBloc,
@@ -172,7 +188,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             left: 16.0.w,
                             top: 8.0.h,
                             right: 16.0.w,
-                            bottom: index != extra['results'].length - 1
+                            bottom: index != _extra['results'].length - 1
                                 ? 8.0.h
                                 : 16.0.h,
                           ),
@@ -201,10 +217,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(result.donor.name),
+                                      Text(
+                                        '${result.donor.name} ${index == 0 ? ' (PENDONOR TERDEKAT)' : ''}',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                       Text('$gender, $age tahun'),
                                       Text(
-                                          'Jarak: $distanceInKilometer ($distanceInMeter)'),
+                                          'Jarak: $distanceInKilometer km ($distanceInMeter m)'),
                                     ],
                                   ),
                                 ),

@@ -1,7 +1,10 @@
+import 'package:donor_darah/features/admin/ui/screens/add_donor_location_screen.dart';
 import 'package:donor_darah/features/donor_request/data/models/donor_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/admin/ui/screens/admin_screen.dart';
+import '../../features/admin/ui/screens/edit_donor_location_screen.dart';
 import '../../features/donor_request/ui/screen/donor_request_screen.dart';
 import '../../features/donor_request_histories/ui/screen/donor_request_histories_screen.dart';
 import '../../features/edit_profile/ui/screen/edit_profile_screen.dart';
@@ -20,9 +23,6 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _profileNavigatorKey =
     GlobalKey<NavigatorState>();
-// Notification
-// final GlobalKey<NavigatorState> _notificationNavigatorKey =
-//     GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
@@ -81,16 +81,6 @@ final GoRouter router = GoRouter(
             ),
           ],
         ),
-        // StatefulShellBranch(
-        //   navigatorKey: _notificationNavigatorKey,
-        //   routes: <GoRoute>[
-        //     GoRoute(
-        //       path: '/notification',
-        //       name: 'notification',
-        //       builder: (context, state) => const NotificationScreen(),
-        //     ),
-        //   ],
-        // ),
         StatefulShellBranch(
           navigatorKey: _profileNavigatorKey,
           routes: [
@@ -119,6 +109,29 @@ final GoRouter router = GoRouter(
         ),
       ],
     ),
+    GoRoute(
+        path: '/admin',
+        name: 'admin',
+        builder: (context, state) {
+          return const AdminScreen();
+        },
+        routes: [
+          GoRoute(
+            path: 'add-donor-location',
+            name: 'add_donor_location',
+            builder: (context, state) {
+              return const AddDonorLocationScreen();
+            },
+          ),
+          GoRoute(
+            path: ':uid/edit',
+            name: 'edit_donor_location',
+            builder: (context, state) {
+              final uid = state.pathParameters['uid'] as String;
+              return EditDonorLocationScreen(uid);
+            },
+          ),
+        ]),
     GoRoute(
       path: '/result',
       name: 'result',

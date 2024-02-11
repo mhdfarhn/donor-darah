@@ -50,25 +50,35 @@ class DonorRequestBloc extends Bloc<RequestDonorEvent, DonorRequestState> {
               endLatitude: donor.location!.latitude,
               endLongitude: donor.location!.longitude,
             );
-            results.add(
-              ResultModel(
-                donor: donor,
-                marker: Marker(
-                  markerId: MarkerId(donor.email),
-                  position: LatLng(
-                    donor.location!.latitude,
-                    donor.location!.longitude,
+            if (sloc <= 10000) {
+              final String gender = donor.gender!;
+              final int age = AppFunction.getAge(donor.dateOfBirth!);
+              final String distanceInKilometer =
+                  (sloc / 1000).toStringAsFixed(2);
+              final String distanceInMeter = sloc.toStringAsFixed(2);
+              results.add(
+                ResultModel(
+                  donor: donor,
+                  marker: Marker(
+                    markerId: MarkerId(donor.email),
+                    position: LatLng(
+                      donor.location!.latitude,
+                      donor.location!.longitude,
+                    ),
+                    infoWindow: InfoWindow(
+                        title: '${donor.name} ($gender, $age tahun)',
+                        snippet: '$distanceInKilometer km ($distanceInMeter m)'
+                        // title: '${(sloc / 1000).toStringAsFixed(2)} km',
+                        // snippet: '${sloc.toStringAsFixed(2)} m',
+                        ),
                   ),
-                  infoWindow: InfoWindow(
-                    title: '${(sloc / 1000).toStringAsFixed(2)} km',
-                    snippet: '${sloc.toStringAsFixed(2)} m',
-                  ),
+                  slocDistance: sloc,
                 ),
-                slocDistance: sloc,
-              ),
-            );
+              );
+            }
           }
         }
+        results.sort((a, b) => a.slocDistance.compareTo(b.slocDistance));
         emit(DonorRequestSuccess(
           donorRequestId: uid,
           results: results,

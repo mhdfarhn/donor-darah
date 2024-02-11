@@ -19,6 +19,7 @@ class DonorRequestScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Butuh Donor'),
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Padding(
@@ -26,7 +27,7 @@ class DonorRequestScreen extends StatelessWidget {
           horizontal: 16.0.w,
         ),
         child: ListView(
-          physics: const BouncingScrollPhysics(),
+          // physics: const BouncingScrollPhysics(),
           children: List.generate(
             donorRequests.length,
             (index) {

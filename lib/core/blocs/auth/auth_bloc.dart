@@ -23,15 +23,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (email != null && token != null) {
         final String? newToken = await FirebaseMessaging.instance.getToken();
 
-        final UserModel user = await _firestoreService.getUser(email);
+        if (email != 'admin@donor.com') {
+          final UserModel user = await _firestoreService.getUser(email);
 
-        if (user.token != newToken) {
-          await _firestoreService.updateToken(user, newToken!);
+          if (user.token != newToken) {
+            await _firestoreService.updateToken(user, newToken!);
+          }
         }
 
         sharedPreferences.setString('token', newToken!);
 
-        emit(AuthAuthenticated());
+        email == 'admin@donor.com'
+            ? emit(AuthAdminAuthenticated())
+            : emit(AuthAuthenticated());
       } else {
         emit(AuthUnauthenticated());
       }
@@ -74,10 +78,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         await _authService.signIn(email: event.email, password: event.password);
 
-        final UserModel user = await _firestoreService.getUser(event.email);
+        if (event.email != 'admin@donor.com') {
+          final UserModel user = await _firestoreService.getUser(event.email);
 
-        if (user.token != token) {
-          await _firestoreService.updateToken(user, token!);
+          if (user.token != token) {
+            await _firestoreService.updateToken(user, token!);
+          }
         }
 
         SharedPreferences sharedPreferences =
@@ -85,7 +91,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         sharedPreferences.setString('email', event.email);
         sharedPreferences.setString('token', token!);
 
-        emit(AuthAuthenticated());
+        event.email != 'admin@donor.com'
+            ? emit(AuthAuthenticated())
+            : emit(AuthAdminAuthenticated());
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(AuthUnauthenticated());
@@ -94,10 +102,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<SignOut>((event, emit) async {
       emit(AuthLoading());
+      if (event.email != 'admin@donor.com') {
+        final UserModel user = await _firestoreService.getUser(event.email);
 
-      final UserModel user = await _firestoreService.getUser(event.email);
-
-      await _firestoreService.deleteToken(user);
+        await _firestoreService.deleteToken(user);
+      }
 
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();

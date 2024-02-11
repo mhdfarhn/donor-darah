@@ -18,11 +18,11 @@ class ActiveDonorRequestSection extends StatefulWidget {
 }
 
 class _ActiveDonorRequestSectionState extends State<ActiveDonorRequestSection> {
-  @override
-  void initState() {
-    context.read<ActiveDonorRequestsBloc>().add(LoadActiveDonorRequests());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   context.read<ActiveDonorRequestsBloc>().add(LoadActiveDonorRequests());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

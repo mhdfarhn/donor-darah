@@ -1,3 +1,9 @@
+import 'package:donor_darah/core/data/services/firebase/firestore_service.dart';
+import 'package:donor_darah/features/connectivity/cubit/connectivity_cubit.dart';
+import 'package:donor_darah/features/connectivity/no_connection_screen.dart';
+import 'package:donor_darah/features/home/blocs/potential_donor/potential_donor_cubit.dart';
+import 'package:donor_darah/features/home/blocs/recomendation/recomendation_cubit.dart';
+import 'package:donor_darah/features/home/data/potential_donor_service/potential_donor_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +21,9 @@ import 'core/blocs/position/position_bloc.dart';
 import 'core/blocs/profile/profile_bloc.dart';
 import 'core/constants/constants.dart';
 import 'core/utils/router.dart';
+import 'features/admin/cubit/donor_location_cubit.dart';
+import 'features/admin/cubit/edit_donor_location/edit_donor_location_cubit.dart';
+import 'features/admin/data/donor_location_service.dart';
 import 'features/donor_request/blocs/donor_request/donor_request_bloc.dart';
 import 'features/home/blocs/active_donor_requests/active_donor_requests_bloc.dart';
 import 'features/home/blocs/success_donor_requests/success_donor_requests_bloc.dart';
@@ -145,51 +154,102 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) {
-        return MultiBlocProvider(
+        return MultiRepositoryProvider(
           providers: [
-            BlocProvider(
-              create: (context) => ActiveDonorRequestsBloc(),
+            RepositoryProvider(
+              create: (context) => FirestoreService(),
             ),
-            BlocProvider(
-              create: (context) => AuthBloc(),
+            RepositoryProvider(
+              create: (context) => DonorLocationService(),
             ),
-            BlocProvider(
-              create: (context) => CurrentUserDonorRequestBloc(),
-            ),
-            BlocProvider(
-              create: (context) => DonorHistoryBloc(),
-            ),
-            BlocProvider(
-              create: (context) => DonorRequestBloc(),
-            ),
-            BlocProvider(
-              create: (context) => MarkerBloc(),
-            ),
-            BlocProvider(
-              create: (context) => MapsBloc(),
-            ),
-            BlocProvider(
-              create: (context) => NotificationBloc(),
-            ),
-            BlocProvider(
-              create: (context) => PositionBloc(),
-            ),
-            BlocProvider(
-              create: (context) => ProfileBloc(),
-            ),
-            BlocProvider(
-              create: (context) => SuccessDonorRequestsBloc(),
+            RepositoryProvider(
+              create: (context) => PotentialDonorService(),
             ),
           ],
-          child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routerConfig: router,
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                color: AppColor.red,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ActiveDonorRequestsBloc(),
               ),
+              BlocProvider(
+                create: (context) => AuthBloc(),
+              ),
+              BlocProvider(
+                create: (context) => ConnectivityCubit(),
+              ),
+              BlocProvider(
+                create: (context) => CurrentUserDonorRequestBloc(),
+              ),
+              BlocProvider(
+                create: (context) => DonorHistoryBloc(),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    DonorLocationCubit(context.read<DonorLocationService>()),
+              ),
+              BlocProvider(
+                create: (context) => EditDonorLocationCubit(
+                    context.read<DonorLocationService>()),
+              ),
+              BlocProvider(
+                create: (context) => DonorRequestBloc(),
+              ),
+              BlocProvider(
+                create: (context) => MarkerBloc(),
+              ),
+              BlocProvider(
+                create: (context) => MapsBloc(),
+              ),
+              BlocProvider(
+                create: (context) => NotificationBloc(),
+              ),
+              BlocProvider(
+                create: (context) => PositionBloc(),
+              ),
+              BlocProvider(
+                create: (context) => PotentialDonorCubit(
+                  context.read<PotentialDonorService>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => ProfileBloc(),
+              ),
+              BlocProvider(
+                create: (context) => RecomendationCubit(
+                  context.read<FirestoreService>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => SuccessDonorRequestsBloc(),
+              ),
+            ],
+            child: BlocBuilder<ConnectivityCubit, ConnectivityState>(
+              builder: (context, state) {
+                if (state is ConnectivityNone) {
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    home: const NoConnectionScreen(),
+                    theme: ThemeData(
+                      appBarTheme: const AppBarTheme(
+                        color: AppColor.red,
+                      ),
+                    ),
+                    title: AppString.appTitle,
+                  );
+                } else {
+                  return MaterialApp.router(
+                    debugShowCheckedModeBanner: false,
+                    routerConfig: router,
+                    theme: ThemeData(
+                      appBarTheme: const AppBarTheme(
+                        color: AppColor.red,
+                      ),
+                    ),
+                    title: AppString.appTitle,
+                  );
+                }
+              },
             ),
-            title: AppString.appTitle,
           ),
         );
       },

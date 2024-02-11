@@ -37,7 +37,9 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthAuthenticated) {
+        if (state is AuthAdminAuthenticated) {
+          context.goNamed('admin');
+        } else if (state is AuthAuthenticated) {
           context.goNamed('home');
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -52,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
           body: SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
+                // physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     SizedBox(height: 16.0.h),

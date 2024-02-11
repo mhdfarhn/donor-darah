@@ -50,7 +50,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             fillColor: AppColor.red.withOpacity(0.1),
             strokeColor: AppColor.red.withOpacity(0.5),
             strokeWidth: 1,
-            radius: 5000,
+            radius: 10000,
           ),
         };
 

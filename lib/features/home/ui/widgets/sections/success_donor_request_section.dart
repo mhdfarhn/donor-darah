@@ -16,11 +16,11 @@ class SuccessDonorRequestSection extends StatefulWidget {
 
 class _SuccessDonorRequestSectionState
     extends State<SuccessDonorRequestSection> {
-  @override
-  void initState() {
-    context.read<SuccessDonorRequestsBloc>().add(LoadSuccessDonorRequests());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   context.read<SuccessDonorRequestsBloc>().add(LoadSuccessDonorRequests());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
