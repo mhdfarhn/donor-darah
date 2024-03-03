@@ -95,9 +95,12 @@ class _ProfileSectionState extends State<ProfileSection> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                       child: PrimaryButton(
-                        title: 'Edit Profile',
-                        onPressed: () async {
-                          context.goNamed('edit_profile');
+                        title: 'Edit Profil',
+                        onPressed: () {
+                          context.goNamed(
+                            'edit_profile',
+                            extra: user,
+                          );
                         },
                       ),
                     ),

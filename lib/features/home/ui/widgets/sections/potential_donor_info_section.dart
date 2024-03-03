@@ -24,32 +24,21 @@ class PotentialDonorInfoSection extends StatelessWidget {
         } else if (state is PotentialDonorLoaded) {
           final map = state.results;
           final keys = map.keys.toList();
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              map.length,
-              (index) => Text(
-                  '${index + 1}. Golongan Darah ${keys[index]} : ${map[keys[index]]} orang'),
-            ),
-          );
-          // return Wrap(
-          //   spacing: 4.w,
-          //   runSpacing: 4.h,
-          //   children: List.generate(
-          //     map.length,
-          //     (index) => Card(
-          //       child: Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: Column(
-          //           children: [
-          //             Text(keys[index]),
-          //             Text(map[keys[index]].toString()),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // );
+          if (map.isEmpty) {
+            return Text(
+              'Tidak ada user yang bersedia donor saat ini.',
+              style: TextStyle(fontSize: AppFontSize.body),
+            );
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                map.length,
+                (index) => Text(
+                    '${index + 1}. Golongan Darah ${keys[index]} : ${map[keys[index]]} orang'),
+              ),
+            );
+          }
         } else {
           return const SizedBox();
         }

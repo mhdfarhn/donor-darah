@@ -114,6 +114,7 @@ class _AdminScreenState extends State<AdminScreen> {
                             onTap: () => context.goNamed(
                               'edit_donor_location',
                               pathParameters: {'uid': locations[index].uid!},
+                              extra: locations[index],
                             ),
                             child: FaIcon(
                               FontAwesomeIcons.pen,

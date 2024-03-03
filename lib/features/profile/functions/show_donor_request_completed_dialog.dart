@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../donor_request/data/models/donor_request_model.dart';
+import '../../home/blocs/active_donor_requests/active_donor_requests_bloc.dart';
 
 Future<dynamic> showDonorRequestCompletedDialog(
   BuildContext context,
@@ -35,6 +36,9 @@ Future<dynamic> showDonorRequestCompletedDialog(
                 context
                     .read<CurrentUserDonorRequestBloc>()
                     .add(UpdateCurrentUserDonorReequest(donorRequest));
+                context
+                    .read<ActiveDonorRequestsBloc>()
+                    .add(LoadActiveDonorRequests());
               },
               child: Text(
                 'Ya',

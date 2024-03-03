@@ -3,6 +3,7 @@ import 'package:donor_darah/features/donor_request/data/models/donor_request_mod
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/admin/data/donor_location_model.dart';
 import '../../features/admin/ui/screens/admin_screen.dart';
 import '../../features/admin/ui/screens/edit_donor_location_screen.dart';
 import '../../features/donor_request/ui/screen/donor_request_screen.dart';
@@ -17,6 +18,7 @@ import '../../features/search/ui/screen/search_screen.dart';
 import '../../features/sign_in/ui/screen/sign_in_screen.dart';
 import '../../features/sign_up/ui/screen/sign_up_screen.dart';
 import '../../features/splash/ui/screen/splash_screen.dart';
+import '../data/models/user_model.dart';
 import '../widgets/scaffold_with_navbar.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -90,10 +92,12 @@ final GoRouter router = GoRouter(
               builder: (context, state) => const ProfileScreen(),
               routes: <GoRoute>[
                 GoRoute(
-                  path: 'edit-profile',
-                  name: 'edit_profile',
-                  builder: (context, state) => const EditProfileScreen(),
-                ),
+                    path: 'edit-profile',
+                    name: 'edit_profile',
+                    builder: (context, state) {
+                      final user = state.extra as UserModel;
+                      return EditProfileScreen(user);
+                    }),
                 GoRoute(
                   path: 'donor-request-histories',
                   name: 'donor_request_histories',
@@ -128,7 +132,11 @@ final GoRouter router = GoRouter(
             name: 'edit_donor_location',
             builder: (context, state) {
               final uid = state.pathParameters['uid'] as String;
-              return EditDonorLocationScreen(uid);
+              final location = state.extra as DonorLocationModel;
+              return EditDonorLocationScreen(
+                uid: uid,
+                location: location,
+              );
             },
           ),
         ]),

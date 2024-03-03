@@ -42,81 +42,96 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'Peta',
+      body: RefreshIndicator(
+        color: AppColor.red,
+        onRefresh: () async {
+          context.read<MapsBloc>().add(LoadMaps());
+          context.read<DonorLocationCubit>().getActiveDonorLocations();
+          context.read<RecomendationCubit>().getRecomendation();
+          context
+              .read<ActiveDonorRequestsBloc>()
+              .add(LoadActiveDonorRequests());
+          context
+              .read<SuccessDonorRequestsBloc>()
+              .add(LoadSuccessDonorRequests());
+          context.read<PotentialDonorCubit>().loadPotentialDonor();
+        },
+        child: ListView(
+          children: [
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'Peta',
+              ),
             ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const MapSection(),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'User Bersedia Donor',
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const MapSection(),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const PotentialDonorInfoSection(),
-          ),
-          SizedBox(height: 24.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'Lokasi Donor Darah',
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'User Bersedia Donor',
+              ),
             ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const DonorLocationSection(),
-          ),
-          SizedBox(height: 24.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'Rekomendasi Pendonor Terdekat',
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const PotentialDonorInfoSection(),
             ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const RecomendationSection(),
-          ),
-          SizedBox(height: 24.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'Butuh Donor',
+            SizedBox(height: 24.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'Lokasi Donor Darah',
+              ),
             ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const ActiveDonorRequestSection(),
-          ),
-          SizedBox(height: 24.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const TitleText(
-              title: 'Donor Selesai',
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const DonorLocationSection(),
             ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: const SuccessDonorRequestSection(),
-          ),
-          SizedBox(height: 24.0.h),
-        ],
+            SizedBox(height: 24.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'Rekomendasi Pendonor Terdekat',
+              ),
+            ),
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const RecomendationSection(),
+            ),
+            SizedBox(height: 24.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'Butuh Donor',
+              ),
+            ),
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const ActiveDonorRequestSection(),
+            ),
+            SizedBox(height: 24.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const TitleText(
+                title: 'Donor Selesai',
+              ),
+            ),
+            SizedBox(height: 16.0.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: const SuccessDonorRequestSection(),
+            ),
+            SizedBox(height: 24.0.h),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColor.red,

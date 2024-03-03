@@ -14,31 +14,34 @@ class ScaffoldWithNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeLocation = GoRouterState.of(context).location;
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navigationShell.currentIndex,
-        selectedItemColor: AppColor.red,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          );
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.house),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidUser),
-            label: '',
-          ),
-        ],
-      ),
+      bottomNavigationBar: routeLocation != '/' && routeLocation != '/profile'
+          ? null
+          : BottomNavigationBar(
+              currentIndex: navigationShell.currentIndex,
+              selectedItemColor: AppColor.red,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+              onTap: (index) {
+                navigationShell.goBranch(
+                  index,
+                  initialLocation: index == navigationShell.currentIndex,
+                );
+              },
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.house),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.solidUser),
+                  label: '',
+                ),
+              ],
+            ),
     );
   }
 }
